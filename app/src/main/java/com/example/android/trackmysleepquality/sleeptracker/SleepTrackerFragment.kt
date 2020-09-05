@@ -52,7 +52,7 @@ class SleepTrackerFragment : Fragment() {
 
 
 
-        val adapter = SleepNightAdapter()
+
 
         // Get a reference to the binding object and inflate the fragment views.
         val binding: FragmentSleepTrackerBinding = DataBindingUtil.inflate(
@@ -72,6 +72,14 @@ class SleepTrackerFragment : Fragment() {
         // To use the View Model with data binding, you have to explicitly
         // give the binding object a reference to it.
         binding.sleepTrackerViewModel = sleepTrackerViewModel
+
+        val adapter = SleepNightAdapter()
+        binding.sleepList.adapter = adapter
+        sleepTrackerViewModel.nights.observe(viewLifecycleOwner, Observer {
+            it?.let {
+                adapter.data = it
+            }
+        })
 
         // Specify the current activity as the lifecycle owner of the binding.
         // This is necessary so that the binding can observe LiveData updates.
@@ -111,7 +119,7 @@ class SleepTrackerFragment : Fragment() {
             }
         })
 
-        binding.sleepList.adapter = adapter
+
         return binding.root
 
 
